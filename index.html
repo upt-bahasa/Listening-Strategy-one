@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy for Listening TOEFL - UPT Bahasa UIN Bukittinggi</title>
+    <style>
+        :root {
+            --navy: #1e3a5f;
+            --navy-dark: #0f2440;
+            --gold: #b8860b;
+            --gold-accent: #c9a96e;
+            --cream: #fef7e0;
+            --cream-dark: #fdecc0;
+            --bg: #fafafa;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* HERO SECTION - Two Column Layout dengan Cover */
+        .hero {
+            background: #ffffff;
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .hero-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: auto 1.2fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .hero-image {
+            background: #e5e7eb;
+            border-radius: 6px;
+            width: 240px;
+            height: 320px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-image-placeholder {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .hero-content .eyebrow {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .hero-content h1 {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 2.4rem;
+            color: var(--navy);
+            margin: 0 0 1rem;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+        .hero-content h1 em {
+            font-style: italic;
+            color: var(--navy-dark);
+        }
+        .hero-content .description {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin: 0 0 1.5rem;
+            line-height: 1.6;
+        }
+        .hero-branding {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+        .hero-branding .institution {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 0 0 0.2rem;
+        }
+        .hero-branding .unit {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* MAIN CONTENT */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .section-header h2 {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 2rem;
+            color: var(--navy);
+            margin: 0 0 0.5rem;
+        }
+        .section-header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* STRATEGY SECTIONS */
+        .strategy-section {
+            margin-bottom: 3rem;
+        }
+        .strategy-section > h2 {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 1.6rem;
+            color: var(--navy);
+            margin: 0 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold-accent);
+            display: inline-block;
+        }
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* SKILL CARD DESIGN (Sesuai Pola Gambar) */
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold-accent);
+            border-radius: 4px;
+            padding: 1.5rem 1.5rem 1.5rem 1.75rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        .skill-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(30,58,95,0.10);
+        }
+        /* Watermark Angka Besar */
+        .skill-number {
+            position: absolute;
+            top: -5px;
+            left: 10px;
+            font-family: 'Georgia', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #f0ece3;
+            line-height: 1;
+            z-index: 0;
+            user-select: none;
+        }
+        .skill-card h3 {
+            position: relative;
+            z-index: 1;
+            margin: 0 0 0.6rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 1.25rem;
+            color: var(--navy);
+            font-weight: 700;
+            padding-top: 0.5rem;
+        }
+        .skill-card p {
+            position: relative;
+            z-index: 1;
+            margin: 0 0 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+        .skill-link {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            align-self: flex-start;
+            padding: 0.6rem 1.2rem;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .skill-link:hover {
+            background: var(--gold);
+        }
+
+        /* LATIHAN GABUNGAN SECTION */
+        .practice-section {
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 6px;
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+        .practice-section > h2 {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 1.6rem;
+            color: var(--navy);
+            margin: 0 0 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold-accent);
+            display: inline-block;
+        }
+        .practice-section > p {
+            color: var(--text-light);
+            margin: 0 0 2rem;
+            font-size: 0.95rem;
+        }
+        .practice-grid .skill-card {
+            background: #fffdf6;
+            border-color: var(--cream-dark);
+        }
+        .practice-grid .skill-link {
+            background: var(--gold);
+        }
+        .practice-grid .skill-link:hover {
+            background: var(--navy);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+            background: #ffffff;
+        }
+        footer .footer-brand {
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.2rem;
+        }
+        footer .footer-tagline {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            .hero-image {
+                width: 200px;
+                height: 270px;
+                margin: 0 auto;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .strategy-section > h2,
+            .practice-section > h2 {
+                font-size: 1.4rem;
+            }
+            .skill-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-image">
+                <!-- Pastikan file cover.jpg berada di folder yang sama dengan index.html -->
+                <img src="cover.jpg" alt="Cover Buku Strategy for Listening TOEFL" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'hero-image-placeholder\'>Cover Buku<br>Strategy for Listening TOEFL</div>';">
+            </div>
+            <div class="hero-content">
+                <span class="eyebrow">Short Dialogues - Paper and Computer</span>
+                <h1>Strategy for <em>Listening TOEFL</em></h1>
+                <p class="description">
+                    Panduan komprehensif untuk menaklukkan bagian Listening Comprehension pada tes TOEFL ITP. 
+                    Menguasai strategi fundamental untuk short dialogues, mulai dari fokus pada baris terakhir, 
+                    menghindari jebakan suara serupa, hingga memahami ekspresi negatif dan fungsi percakapan.
+                </p>
+                <div class="hero-branding">
+                    <p class="institution">UPT Bahasa UIN Bukittinggi</p>
+                    <p class="unit">Unit Pengembangan Bahasa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Daftar Strategi Listening</h2>
+            <p>Pelajari setiap teknik secara mendalam untuk meningkatkan skor Listening Comprehension Anda secara signifikan.</p>
+        </div>
+
+        <!-- GENERAL STRATEGIES -->
+        <section class="strategy-section" id="general-strategies">
+            <h2>General Strategies</h2>
+            <div class="skill-grid">
+
+                <a href="01.html" class="skill-card">
+                    <div class="skill-number">01</div>
+                    <h3>Focus on the Last Line</h3>
+                    <p>Pelajari mengapa respons pembicara kedua seringkali mengandung kunci jawaban utama.</p>
+                    <span class="skill-link">Baca Skill 1</span>
+                </a>
+
+                <a href="02.html" class="skill-card">
+                    <div class="skill-number">02</div>
+                    <h3>Choose Answers with Synonyms</h3>
+                    <p>Pahami bahwa jawaban benar biasanya menggunakan sinonim atau parafrase, bukan kata yang sama persis.</p>
+                    <span class="skill-link">Baca Skill 2</span>
+                </a>
+
+                <a href="03.html" class="skill-card">
+                    <div class="skill-number">03</div>
+                    <h3>Avoid Similar Sounds</h3>
+                    <p>Kenali jebakan klasik TOEFL: pilihan jawaban yang menggunakan kata dengan bunyi mirip namun makna berbeda.</p>
+                    <span class="skill-link">Baca Skill 3</span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WHO, WHAT, WHERE -->
+        <section class="strategy-section" id="who-what-where">
+            <h2>Who, What, Where</h2>
+            <div class="skill-grid">
+
+                <a href="04.html" class="skill-card">
+                    <div class="skill-number">04</div>
+                    <h3>Draw Conclusions</h3>
+                    <p>Teknik menyimpulkan lokasi, pekerjaan, atau hubungan antar pembicara berdasarkan konteks.</p>
+                    <span class="skill-link">Baca Skill 4</span>
+                </a>
+
+                <a href="05.html" class="skill-card">
+                    <div class="skill-number">05</div>
+                    <h3>Listen for Passives</h3>
+                    <p>Strategi mengidentifikasi pelaku dan penerima tindakan dalam kalimat pasif (passive voice).</p>
+                    <span class="skill-link">Baca Skill 5</span>
+                </a>
+
+                <a href="06.html" class="skill-card">
+                    <div class="skill-number">06</div>
+                    <h3>Multiple Nouns Tracking</h3>
+                    <p>Cara melacak siapa melakukan apa ketika percakapan melibatkan banyak subjek dan objek.</p>
+                    <span class="skill-link">Baca Skill 6</span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- LATIHAN GABUNGAN -->
+        <section class="practice-section" id="latihan-gabungan">
+            <h2>Latihan Gabungan</h2>
+            <p>Gabungkan kemampuan Anda dalam latihan campuran. Setiap paket berisi 10 soal dengan audio, penilaian otomatis, kunci tersembunyi, dan evaluasi per percakapan.</p>
+
+            <div class="skill-grid practice-grid">
+
+                <a href="gabungan-01-03.html" class="skill-card">
+                    <div class="skill-number">01–03</div>
+                    <h3>Latihan Gabungan</h3>
+                    <p>General Strategies: Focus on the Last Line, Choose Answers with Synonyms, dan Avoid Similar Sounds.</p>
+                    <span class="skill-link">Latih Skill 1–3</span>
+                </a>
+
+                <a href="gabungan-04-06.html" class="skill-card">
+                    <div class="skill-number">04–06</div>
+                    <h3>Latihan Gabungan</h3>
+                    <p>Who, What, Where: Draw Conclusions, Listen for Passives, dan Multiple Nouns Tracking.</p>
+                    <span class="skill-link">Latih Skill 4–6</span>
+                </a>
+
+                <a href="gabungan-01-06.html" class="skill-card">
+                    <div class="skill-number">01–06</div>
+                    <h3>Latihan Gabungan</h3>
+                    <p>Mix seluruh enam strategi: simulasi lengkap short dialogues untuk mengukur kesiapan TOEFL ITP Anda.</p>
+                    <span class="skill-link">Latih Skill 1–6</span>
+                </a>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-brand">© 2026 UPT Bahasa UIN Bukittinggi</div>
+        <div class="footer-tagline">Designed for Academic Excellence</div>
+    </footer>
+
+</body>
+</html>
