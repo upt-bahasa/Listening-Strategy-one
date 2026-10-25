@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy 5: Listen for Passives - UPT Bahasa UIN Bukittinggi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --cream: #fef7e0;
+            --cream-dark: #fdecc0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 0.3rem 0 0; opacity: 0.9; font-size: 0.95rem;}
+        
+        .container {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .strategy-intro {
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .strategy-intro h2 { color: var(--primary); margin-top: 0; font-size: 1.3rem; margin-bottom: 0.5rem;}
+        .strategy-intro p { margin-bottom: 0.3rem; font-size: 0.95rem; }
+        
+        .question-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .audio-player { 
+            width: 100%; 
+            height: 36px;
+            margin: 0.3rem 0; 
+        }
+        
+        .options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.4rem;
+            margin-top: 0.5rem; 
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.8rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .option-label:hover { border-color: var(--secondary); background: #eff6ff; }
+        .option-label input { margin-right: 0.8rem; accent-color: var(--secondary); transform: scale(1.1);}
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--secondary); }
+        
+        #results-section {
+            display: none;
+            margin-top: 1.5rem;
+        }
+        .score-display {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        .result-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .result-item.correct { border-left: 5px solid var(--success); }
+        .result-item.incorrect { border-left: 5px solid var(--error); }
+        
+        .badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-correct { background: var(--success); }
+        .badge-incorrect { background: var(--error); }
+        
+        .transcript-box {
+            background: #f1f5f9;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .analysis-box {
+            background: #ecfdf5;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+        }
+        .analysis-box strong { color: var(--success); }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Strategy 5: Listen for Passives</h1>
+    <p>UPT Bahasa UIN Bukittinggi</p>
+</header>
+
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Kembali ke Daftar Strategi</a>
+
+    <div class="strategy-intro">
+        <h2>Pernyataan Pasif (Passive Statements)</h2>
+
+<ol style="margin-left: 25px; padding-left: 20px; line-height: 1.8; text-align: justify;">
+  <li style="padding-left: 8px; margin-bottom: 12px;">
+    Jika dialog mengandung kalimat pasif (<em>passive statement</em>),
+    jawaban atas pertanyaan sering kali berupa kalimat aktif
+    (<em>active statement</em>).
+  </li>
+
+  <li style="padding-left: 8px; margin-bottom: 12px;">
+    Jika dialog mengandung kalimat aktif (<em>active statement</em>),
+    jawaban atas pertanyaan sering kali berupa kalimat pasif
+    (<em>passive statement</em>).
+  </li>
+</ol>
+
+<div style="border-top: 2px solid #777; margin-top: 15px; padding-top: 10px; text-align: justify; line-height: 1.8;">
+  <strong>Catatan:</strong> Perhatikan dengan cermat siapa atau apa
+  yang melakukan tindakan dalam pertanyaan-pertanyaan ini.
+</div>
+        <p><strong>Instruksi:</strong> Dengarkan 10 percakapan singkat. Perhatikan struktur aktif/pasif pada baris terakhir. Klik "Lihat Hasil & Evaluasi" setelah selesai.</p>
+    </div>
+
+    <form id="quiz-form">
+        
+        <!-- Question 1 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 1</span></div>
+            <audio controls class="audio-player"><source src="five-1.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="A"> If the restaurant is on the corner</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> If the man would like to go to the restaurant</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> If the vegetables are fresh</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> If vegetarian food can be obtained</label>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 2</span></div>
+            <audio controls class="audio-player"><source src="five-2.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="A"> He admitted that he wanted to go to law school in the fall.</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> The law school accepted him as a student.</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> The law professor admitted that he would be a student in the fall semester.</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> He would be admitted to law school after the fall semester.</label>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 3</span></div>
+            <audio controls class="audio-player"><source src="five-3.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q3" value="A"> Mark's plants were cared for in his absence.</label>
+                <label class="option-label"><input type="radio" name="q3" value="B"> Mark's plan was to be out of town.</label>
+                <label class="option-label"><input type="radio" name="q3" value="C"> Mark was careful about his plans for the out-of-town trip.</label>
+                <label class="option-label"><input type="radio" name="q3" value="D"> She was careful while Mark was gone.</label>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 4</span></div>
+            <audio controls class="audio-player"><source src="five-4.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="A"> The lights in the trees were destroyed in the storm.</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> The storm damaged the trees.</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> The falling trees destroyed a store.</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> In the light the destruction of the storm could be seen.</label>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 5</span></div>
+            <audio controls class="audio-player"><source src="five-5.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q5" value="A"> She was broke from skiing.</label>
+                <label class="option-label"><input type="radio" name="q5" value="B"> She went skiing in spite of her accident.</label>
+                <label class="option-label"><input type="radio" name="q5" value="C"> Her leg was hurt on a skiing trip.</label>
+                <label class="option-label"><input type="radio" name="q5" value="D"> Her skis were broken in the mountains.</label>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 6</span></div>
+            <audio controls class="audio-player"><source src="five-6.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="A"> The road the horses took was long and hard.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> It was hard to find the hidden houses.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> The riders worked the horses too much.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> It was hard for people to ride the horses for long.</label>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 7</span></div>
+            <audio controls class="audio-player"><source src="five-7.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="A"> He didn't want the coffee that the woman ordered.</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> He wasn't sure if the woman wanted coffee.</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> He assumed the woman had ordered coffee.</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> He was unaware that coffee had already been ordered.</label>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 8</span></div>
+            <audio controls class="audio-player"><source src="five-8.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q8" value="A"> The car was in the left parking lot at the airport.</label>
+                <label class="option-label"><input type="radio" name="q8" value="B"> The friends parked their car at the airport.</label>
+                <label class="option-label"><input type="radio" name="q8" value="C"> The airport couldn't hold a lot of cars.</label>
+                <label class="option-label"><input type="radio" name="q8" value="D"> There were a lot of cars to the left of the parking lot.</label>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 9</span></div>
+            <audio controls class="audio-player"><source src="five-9.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q9" value="A"> The students pointed at Mac.</label>
+                <label class="option-label"><input type="radio" name="q9" value="B"> Mac was present when the other students made the appointment.</label>
+                <label class="option-label"><input type="radio" name="q9" value="C"> The class representative suggested Mac to the other students.</label>
+                <label class="option-label"><input type="radio" name="q9" value="D"> Mac was chosen by his classmates to represent them.</label>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 10</span></div>
+            <audio controls class="audio-player"><source src="five-10.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="A"> After the earthquake, the insurance company came out to inspect the damage.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> The insurance company insisted that the building be repaired to meet earthquake safety standards.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> The inhabitants paid their premiums after the earthquake.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> The insurance company paid for the earthquake damage.</label>
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" class="btn-submit">Lihat Hasil & Evaluasi</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-display" id="score-display">Skor Anda: 0 / 10</div>
+        <div id="results-container"></div>
+        <a href="index.html" class="btn-submit" style="background:#64748b; text-decoration:none;">Kembali ke Daftar Strategi</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 UPT Bahasa UIN Bukittinggi. All Rights Reserved.
+</footer>
+
+<script>
+    // Data Transkrip & Analisa Berdasarkan TOEFL EXERCISE 5
+    const dialogues = [
+        {
+            transcript: "(Man) Would you like to go to the new restaurant on the corner?<br>(Woman) Is that the one that serves vegetarian food?<br><em>(Narrator: What does the woman want to know?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Wanita menggunakan kalimat aktif 'serves vegetarian food'. Jawaban yang benar mengubahnya menjadi bentuk pasif: 'vegetarian food can be obtained' (makanan vegetarian dapat diperoleh). Jawaban: <strong>(D)</strong>."
+        },
+        {
+            transcript: "(Man) Has Harry heard from the law school yet?<br>(Woman) Yes, he was admitted by the law school for the fall semester.<br><em>(Narrator: What happened to Harry?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Wanita menggunakan kalimat pasif 'he was admitted by the law school'. Jawaban yang benar mengubahnya menjadi kalimat aktif: 'The law school accepted him'. Jawaban: <strong>(B)</strong>."
+        },
+        {
+            transcript: "(Man) Mark said that you were a lot of help.<br>(Woman) Well, I took care of his plants while he was out of town.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Wanita menggunakan kalimat aktif 'I took care of his plants'. Jawaban yang benar menggunakan bentuk pasif: 'Mark's plants were cared for'. Jawaban: <strong>(A)</strong>."
+        },
+        {
+            transcript: "(Woman) Do you know what happened during the lightning storm?<br>(Man) Yes, several trees were destroyed.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Pria menggunakan kalimat pasif 'several trees were destroyed'. Jawaban yang benar menggunakan bentuk aktif: 'The storm damaged the trees'. Jawaban: <strong>(B)</strong>."
+        },
+        {
+            transcript: "(Man) Did you see Sally? Her leg's in a cast.<br>(Woman) Yes, I know. She told me that she broke her leg skiing in the mountains.<br><em>(Narrator: What happened to Sally?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Wanita menggunakan kalimat aktif 'she broke her leg'. Jawaban yang benar menggunakan bentuk pasif: 'Her leg was hurt'. Jawaban: <strong>(C)</strong>."
+        },
+        {
+            transcript: "(Woman) The horses are not in very good shape now.<br>(Man) They were ridden too long and too hard.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Pria menggunakan kalimat pasif 'They were ridden too long and too hard'. Jawaban yang benar menggunakan bentuk aktif: 'The riders worked the horses too much'. Jawaban: <strong>(C)</strong>."
+        },
+        {
+            transcript: "(Woman) Why didn't you order coffee?<br>(Man) I thought it had already been ordered.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Pria menggunakan kalimat pasif 'it had already been ordered'. Jawaban yang benar menggunakan bentuk aktif: 'He assumed the woman had ordered coffee'. Jawaban: <strong>(C)</strong>."
+        },
+        {
+            transcript: "(Man) How are your friends going to get home from the airport after their trip?<br>(Woman) Their car was left in the airport lot.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Wanita menggunakan kalimat pasif 'Their car was left...'. Jawaban yang benar menggunakan bentuk aktif: 'The friends parked their car...'. Jawaban: <strong>(B)</strong>."
+        },
+        {
+            transcript: "(Man) Has the class chosen a representative?<br>(Woman) The other students appointed Mac class representative.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Wanita menggunakan kalimat aktif 'The other students appointed Mac'. Jawaban yang benar menggunakan bentuk pasif: 'Mac was chosen by his classmates'. Jawaban: <strong>(D)</strong>."
+        },
+        {
+            transcript: "(Woman) Wasn't the building damaged in the earthquake?<br>(Man) Yes, it was. And when this happened, the inhabitants were paid by the insurance company.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Pria menggunakan kalimat pasif 'the inhabitants were paid by the insurance company'. Jawaban yang benar menggunakan bentuk aktif: 'The insurance company paid for the earthquake damage'. Jawaban: <strong>(D)</strong>."
+        }
+    ];
+
+    document.getElementById('submit-btn').addEventListener('click', function() {
+        let score = 0;
+        let totalQuestions = 10;
+        let resultsHTML = '';
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionCard = document.querySelectorAll('.question-card')[i-1];
+            const correctAnswer = questionCard.getAttribute('data-correct');
+            const userAnswerElem = document.querySelector(`input[name="q${i}"]:checked`);
+            const userAnswer = userAnswerElem ? userAnswerElem.value : 'Tidak dijawab';
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) score++;
+
+            const dialogue = dialogues[i - 1];
+            const statusClass = isCorrect ? 'correct' : 'incorrect';
+            const badgeClass = isCorrect ? 'badge-correct' : 'badge-incorrect';
+            const statusText = isCorrect ? 'Benar' : 'Salah';
+
+            resultsHTML += `
+                <div class="result-item ${statusClass}">
+                    <h4 style="margin-top:0; margin-bottom:0.5rem; font-size:1rem;">
+                        Soal ${i}
+                        <span class="badge ${badgeClass}">${statusText}</span>
+                    </h4>
+                    <p style="font-size:0.9rem; margin:0.2rem 0;"><strong>Jawaban Anda:</strong> ${userAnswer} | <strong>Kunci:</strong> ${correctAnswer}</p>
+                    <div class="transcript-box">
+                        <strong>Transkrip:</strong><br>${dialogue.transcript}
+                    </div>
+                    <div class="analysis-box">
+                        ${dialogue.analysis}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('score-display').innerText = `Skor Anda: ${score} / ${totalQuestions}`;
+        document.getElementById('results-container').innerHTML = resultsHTML;
+        
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        
+        // Disable inputs
+        const inputs = document.querySelectorAll('#quiz-form input');
+        inputs.forEach(input => input.disabled = true);
+        document.getElementById('submit-btn').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

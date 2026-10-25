@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Gabungan: Skills 4-6 - UPT Bahasa UIN Bukittinggi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --cream: #fef7e0;
+            --cream-dark: #fdecc0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 0.3rem 0 0; opacity: 0.9; font-size: 0.95rem;}
+        
+        .container {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .strategy-intro {
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .strategy-intro h2 { color: var(--primary); margin-top: 0; font-size: 1.3rem; margin-bottom: 0.5rem;}
+        .strategy-intro p { margin-bottom: 0.3rem; font-size: 0.95rem; }
+        
+        .question-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .audio-player { 
+            width: 100%; 
+            height: 36px;
+            margin: 0.3rem 0; 
+        }
+        
+        .options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.4rem;
+            margin-top: 0.5rem; 
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.8rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .option-label:hover { border-color: var(--secondary); background: #eff6ff; }
+        .option-label input { margin-right: 0.8rem; accent-color: var(--secondary); transform: scale(1.1);}
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--secondary); }
+        
+        #results-section {
+            display: none;
+            margin-top: 1.5rem;
+        }
+        .score-display {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        .result-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .result-item.correct { border-left: 5px solid var(--success); }
+        .result-item.incorrect { border-left: 5px solid var(--error); }
+        
+        .badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-correct { background: var(--success); }
+        .badge-incorrect { background: var(--error); }
+        
+        .strategy-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .transcript-box {
+            background: #f1f5f9;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .analysis-box {
+            background: #ecfdf5;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+        }
+        .analysis-box strong { color: var(--success); }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Latihan Gabungan: Skills 4-6</h1>
+    <p>UPT Bahasa UIN Bukittinggi</p>
+</header>
+
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Kembali ke Daftar Strategi</a>
+
+    <div class="strategy-intro">
+        <h2>Tentang Latihan Ini</h2>
+        <p>Latihan ini menggabungkan strategi <strong>Draw Conclusions (Who, What, Where)</strong>, <strong>Listen for Passives</strong>, dan <strong>Multiple Nouns Tracking</strong>.</p>
+        <p><strong>Instruksi:</strong> Dengarkan 10 percakapan singkat. Terapkan strategi yang tepat untuk menarik kesimpulan, mengidentifikasi kalimat pasif/aktif, dan melacak pelaku tindakan. Klik "Lihat Hasil & Evaluasi" setelah selesai.</p>
+    </div>
+
+    <form id="quiz-form">
+        
+        <!-- Question 1 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 1</span></div>
+            <audio controls class="audio-player"><source src="4sd6-1.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="A"> In a department store</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> In a stationery store</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> At the post office</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> At the airport</label>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 2</span></div>
+            <audio controls class="audio-player"><source src="4sd6-2.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="A"> The teacher gave the students a hand.</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> The term papers were turned in.</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> The students got the papers from the office.</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> The teacher handed the papers to the students.</label>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 3</span></div>
+            <audio controls class="audio-player"><source src="4sd6-3.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q3" value="A"> The attendant checked the oil in Mark's car.</label>
+                <label class="option-label"><input type="radio" name="q3" value="B"> Mark checked to see if he had enough oil in his car.</label>
+                <label class="option-label"><input type="radio" name="q3" value="C"> Mark checked with the service station attendant.</label>
+                <label class="option-label"><input type="radio" name="q3" value="D"> Mark wrote a check to pay for the oil.</label>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 4</span></div>
+            <audio controls class="audio-player"><source src="4sd6-4.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="A"> A delivery man</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> A famous chef</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> A clerk in a fast-food restaurant</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> An airline steward</label>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 5</span></div>
+            <audio controls class="audio-player"><source src="4sd6-5.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q5" value="A"> They need new print for the additional copies.</label>
+                <label class="option-label"><input type="radio" name="q5" value="B"> They can make extra copies if necessary.</label>
+                <label class="option-label"><input type="radio" name="q5" value="C"> Printers are needed for the additional copies.</label>
+                <label class="option-label"><input type="radio" name="q5" value="D"> Additional copies are needed immediately.</label>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 6</span></div>
+            <audio controls class="audio-player"><source src="4sd6-6.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="A"> The professor bought two books.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> The students had to purchase two books.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> The students sold two books to the professor.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> The students were required to read two books by the professor.</label>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 7</span></div>
+            <audio controls class="audio-player"><source src="4sd6-7.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="A"> Jim decided to take some time off from work.</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> The doctor told Jim he wasn't too weak to work.</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> Jim was mad when the doctor took some time off.</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> Jim has to go back to the doctor's office.</label>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 8</span></div>
+            <audio controls class="audio-player"><source src="4sd6-8.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q8" value="A"> The woman went to the laboratory.</label>
+                <label class="option-label"><input type="radio" name="q8" value="B"> The woman sent the tissue samples.</label>
+                <label class="option-label"><input type="radio" name="q8" value="C"> The woman will send the tissue samples.</label>
+                <label class="option-label"><input type="radio" name="q8" value="D"> The woman will get the tissue samples.</label>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 9</span></div>
+            <audio controls class="audio-player"><source src="4sd6-9.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q9" value="A"> Mary is the new class president.</label>
+                <label class="option-label"><input type="radio" name="q9" value="B"> Sue was elected class president.</label>
+                <label class="option-label"><input type="radio" name="q9" value="C"> Mary and Sue are both class presidents.</label>
+                <label class="option-label"><input type="radio" name="q9" value="D"> The senior class has no president.</label>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 10</span></div>
+            <audio controls class="audio-player"><source src="4sd6-10.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="A"> The program was boring.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> The program provided a good analysis of politics.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> The panel was ineffective.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> She didn't watch the program.</label>
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" class="btn-submit">Lihat Hasil & Evaluasi</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-display" id="score-display">Skor Anda: 0 / 10</div>
+        <div id="results-container"></div>
+        <a href="index.html" class="btn-submit" style="background:#64748b; text-decoration:none;">Kembali ke Daftar Strategi</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 UPT Bahasa UIN Bukittinggi. All Rights Reserved.
+</footer>
+
+<script>
+    // Data Transkrip & Analisa Berdasarkan TOEFL EXERCISE (Skills 4-6)
+    const dialogues = [
+        {
+            strategy: "Skill 4 (Where)",
+            transcript: "(Woman) Can I help you?<br>(Man) I need two stamps and a padded mailing envelope, please.<br><em>(Narrator: WHERE DOES THIS CONVERSATION PROBABLY TAKE PLACE?)</em>",
+            analysis: "<strong>Kesimpulan (Where):</strong> Petunjuk 'stamps' (perangko) dan 'padded mailing envelope' (amplop bantalan) sangat spesifik untuk kantor pos. Jawaban benar: <strong>(C) At the post office</strong>."
+        },
+        {
+            strategy: "Skill 5 (Passives)",
+            transcript: "(Man) Why were the students coming to the teacher's office?<br>(Woman) They had to hand in their papers.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Struktur Aktif/Pasif:</strong> Wanita menggunakan kalimat aktif 'hand in their papers' (mengumpulkan makalah). Jawaban yang benar mengubahnya menjadi bentuk pasif: 'The term papers were turned in'. Jawaban: <strong>(B)</strong>."
+        },
+        {
+            strategy: "Skill 6 (Multiple Nouns)",
+            transcript: "(Man) Did Mark stop at the service station?<br>(Woman) Yes, he had the attendant check the oil in his car.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Frasa 'had the attendant check' berarti Mark menyuruh petugas (attendant) untuk mengecek oli. Jadi, petugaslah yang mengecek oli, bukan Mark. Jawaban benar: <strong>(A) The attendant checked the oil in Mark's car</strong>."
+        },
+        {
+            strategy: "Skill 4 (Who)",
+            transcript: "(Woman) I'd like a burger and fries, please.<br>(Man) To stay, or to go?<br><em>(Narrator: WHO IS THE MAN?)</em>",
+            analysis: "<strong>Kesimpulan (Who):</strong> Pertanyaan 'To stay, or to go?' (Makan di tempat atau dibawa pulang?) adalah frasa standar yang diucapkan oleh kasir/restoran cepat saji. Jawaban benar: <strong>(C) A clerk in a fast-food restaurant</strong>."
+        },
+        {
+            strategy: "Skill 5 (Passives)",
+            transcript: "(Woman) Maybe we should make some more copies now, just in case.<br>(Man) Additional copies can be printed as needed.<br><em>(Narrator: WHAT DOES THE MAN MEAN?)</em>",
+            analysis: "<strong>Struktur Pasif/Aktif:</strong> Pria menggunakan kalimat pasif 'Additional copies can be printed'. Jawaban yang benar menggunakan bentuk aktif: 'They can make extra copies if necessary'. Jawaban: <strong>(B)</strong>."
+        },
+        {
+            strategy: "Skill 6 (Multiple Nouns)",
+            transcript: "(Man) What did the professor ask the students to do?<br>(Woman) He required them to buy two books.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Profesor ('He') mewajibkan siswa ('them') untuk membeli dua buku. Siswa adalah pelaku yang harus membeli. Jawaban benar: <strong>(B) The students had to purchase two books</strong>."
+        },
+        {
+            strategy: "Skill 4 (What Next)",
+            transcript: "(Woman) Did Jim see a doctor this morning?<br>(Man) Yes, and the doctor told him to return to the office to see him next week.<br><em>(Narrator: WHAT DOES THE MAN MEAN?)</em>",
+            analysis: "<strong>Kesimpulan (What Next):</strong> Dokter menyuruh Jim untuk 'return to the office' (kembali ke kantor praktik) minggu depan. Ini berarti Jim harus pergi lagi ke dokter. Jawaban benar: <strong>(D) Jim has to go back to the doctor's office</strong>."
+        },
+        {
+            strategy: "Skill 4 (What Next)",
+            transcript: "(Man) Have you sent the tissue samples to the laboratory?<br>(Woman) Not yet, but I'll get it done in the next half hour.<br><em>(Narrator: WHAT WILL THE WOMAN PROBABLY DO NEXT?)</em>",
+            analysis: "<strong>Kesimpulan (What Next):</strong> Wanita berkata 'I'll get it done' (saya akan menyelesaikannya/mengirimnya) dalam setengah jam ke depan. Tindakan selanjutnya adalah mengirim sampel. Jawaban benar: <strong>(C) The woman will send the tissue samples</strong>."
+        },
+        {
+            strategy: "Skill 6 (Multiple Nouns)",
+            transcript: "(Man) Has there been a change in senior class president?<br>(Woman) Yes, Mary replaced Sue in that position.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> 'Mary replaced Sue' berarti Mary mengambil alih posisi Sue. Sue tidak lagi menjadi presiden kelas, dan Mary adalah presiden kelas yang baru. Jawaban benar: <strong>(A) Mary is the new class president</strong>."
+        },
+        {
+            strategy: "Skill 4 (Conclusion/Synonyms)",
+            transcript: "(Man) Did you find that television program interesting?<br>(Woman) I certainly did. The current political situation was analyzed effectively by the panel.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Kesimpulan & Sinonim:</strong> Wanita menyatakan program itu menarik karena situasi politik 'analyzed effectively' (dianalisis secara efektif). Ini bersinonim dengan 'provided a good analysis'. Jawaban benar: <strong>(B) The program provided a good analysis of politics</strong>."
+        }
+    ];
+
+    document.getElementById('submit-btn').addEventListener('click', function() {
+        let score = 0;
+        let totalQuestions = 10;
+        let resultsHTML = '';
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionCard = document.querySelectorAll('.question-card')[i-1];
+            const correctAnswer = questionCard.getAttribute('data-correct');
+            const userAnswerElem = document.querySelector(`input[name="q${i}"]:checked`);
+            const userAnswer = userAnswerElem ? userAnswerElem.value : 'Tidak dijawab';
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) score++;
+
+            const dialogue = dialogues[i - 1];
+            const statusClass = isCorrect ? 'correct' : 'incorrect';
+            const badgeClass = isCorrect ? 'badge-correct' : 'badge-incorrect';
+            const statusText = isCorrect ? 'Benar' : 'Salah';
+
+            resultsHTML += `
+                <div class="result-item ${statusClass}">
+                    <h4 style="margin-top:0; margin-bottom:0.5rem; font-size:1rem;">
+                        Soal ${i}
+                        <span class="badge ${badgeClass}">${statusText}</span>
+                    </h4>
+                    <span class="strategy-tag">${dialogue.strategy}</span>
+                    <p style="font-size:0.9rem; margin:0.2rem 0;"><strong>Jawaban Anda:</strong> ${userAnswer} | <strong>Kunci:</strong> ${correctAnswer}</p>
+                    <div class="transcript-box">
+                        <strong>Transkrip:</strong><br>${dialogue.transcript}
+                    </div>
+                    <div class="analysis-box">
+                        ${dialogue.analysis}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('score-display').innerText = `Skor Anda: ${score} / ${totalQuestions}`;
+        document.getElementById('results-container').innerHTML = resultsHTML;
+        
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        
+        // Disable inputs
+        const inputs = document.querySelectorAll('#quiz-form input');
+        inputs.forEach(input => input.disabled = true);
+        document.getElementById('submit-btn').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

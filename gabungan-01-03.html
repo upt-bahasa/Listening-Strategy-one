@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Gabungan: Skills 1-3 - UPT Bahasa UIN Bukittinggi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --cream: #fef7e0;
+            --cream-dark: #fdecc0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 2rem; }
+        header p { margin: 0.5rem 0 0; opacity: 0.9; }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .strategy-intro {
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .strategy-intro h2 { color: var(--primary); margin-top: 0; font-size: 1.5rem; }
+        .strategy-intro p { margin-bottom: 0.5rem; }
+        
+        .question-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .audio-player { width: 100%; margin: 0.5rem 0; }
+        
+        .options { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-label:hover { border-color: var(--secondary); background: #eff6ff; }
+        .option-label input { margin-right: 1rem; accent-color: var(--secondary); }
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--secondary); }
+        
+        /* Results Section */
+        #results-section {
+            display: none;
+            margin-top: 2rem;
+        }
+        .score-display {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .result-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .result-item.correct { border-left: 5px solid var(--success); }
+        .result-item.incorrect { border-left: 5px solid var(--error); }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-correct { background: var(--success); }
+        .badge-incorrect { background: var(--error); }
+        
+        .transcript-box {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .analysis-box {
+            background: #ecfdf5;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+        .analysis-box strong { color: var(--success); }
+        
+        .strategy-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Latihan Gabungan: Skills 1-3</h1>
+    <p>UPT Bahasa UIN Bukittinggi</p>
+</header>
+
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Kembali ke Daftar Strategi</a>
+
+    <div class="strategy-intro">
+        <h2>Tentang Latihan Ini</h2>
+        <p>Latihan ini menggabungkan ketiga strategi dasar Short Dialogues: <strong>Focus on the Last Line</strong>, <strong>Choose Answers with Synonyms</strong>, dan <strong>Avoid Similar Sounds</strong>.</p>
+        <p><strong>Instruksi:</strong> Dengarkan 10 percakapan singkat berikut. Terapkan strategi yang tepat untuk setiap soal, lalu pilih jawaban yang paling benar. Setelah selesai, klik tombol "Lihat Hasil & Evaluasi" untuk melihat skor dan analisa mendalam.</p>
+    </div>
+
+    <form id="quiz-form">
+        
+        <!-- Question 1 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 1</span></div>
+            <audio controls class="audio-player"><source src="1sd3-1.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="A"> He would like some iced coffee.</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> He wants to stop drinking coffee.</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> A drink seems like a good idea.</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> He needs to drink something to stop his coughing.</label>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 2</span></div>
+            <audio controls class="audio-player"><source src="1sd3-2.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="A"> She would prefer a sunny day.</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> The park is too crowded.</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> She would like a place that is not so loud.</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> She cannot walk because she's too old.</label>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 3</span></div>
+            <audio controls class="audio-player"><source src="1sd3-3.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q3" value="A"> He should open an account.</label>
+                <label class="option-label"><input type="radio" name="q3" value="B"> He should take a ride on a ship.</label>
+                <label class="option-label"><input type="radio" name="q3" value="C"> He should try to keep the cost cheap.</label>
+                <label class="option-label"><input type="radio" name="q3" value="D"> He should try something monotonous to get to sleep.</label>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 4</span></div>
+            <audio controls class="audio-player"><source src="1sd3-4.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="A"> The department is not changing the requirements.</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> He hasn't heard anything about the change.</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> The changes are believable.</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> What has happened is incredible to him.</label>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 5</span></div>
+            <audio controls class="audio-player"><source src="1sd3-5.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q5" value="A"> The wait has taken close to an hour.</label>
+                <label class="option-label"><input type="radio" name="q5" value="B"> They were stranded in their car.</label>
+                <label class="option-label"><input type="radio" name="q5" value="C"> Most of the people have been in line for hours.</label>
+                <label class="option-label"><input type="radio" name="q5" value="D"> They made a line in the sand.</label>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 6</span></div>
+            <audio controls class="audio-player"><source src="1sd3-6.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="A"> The instructor is selecting several passages.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> The conductor is fair to the passengers.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> The stamp collector is conducting his business.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> The riders are paying for the train trip.</label>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 7</span></div>
+            <audio controls class="audio-player"><source src="1sd3-7.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="A"> The managers will take the train to the program.</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> A program to develop new managers will commence soon.</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> The new management program is very weak.</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> The program will be maintained to the letter.</label>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 8</span></div>
+            <audio controls class="audio-player"><source src="1sd3-8.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q8" value="A"> The fire started to attack the building.</label>
+                <label class="option-label"><input type="radio" name="q8" value="B"> The firefighter stared at the attacker.</label>
+                <label class="option-label"><input type="radio" name="q8" value="C"> The fire probably began at the top of the building.</label>
+                <label class="option-label"><input type="radio" name="q8" value="D"> The firefighter started to attack the fire.</label>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 9</span></div>
+            <audio controls class="audio-player"><source src="1sd3-9.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q9" value="A"> He assured the woman that he knew the truth.</label>
+                <label class="option-label"><input type="radio" name="q9" value="B"> He is sure that it isn't new.</label>
+                <label class="option-label"><input type="radio" name="q9" value="C"> He thought that the woman was aware of what happened.</label>
+                <label class="option-label"><input type="radio" name="q9" value="D"> He soon will know the truth.</label>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 10</span></div>
+            <audio controls class="audio-player"><source src="1sd3-10.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="A"> The art professor is not one of his fans.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> His drawings were amazing.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> The catches that he made were fantastic.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> His sketches showed a fantasy world.</label>
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" class="btn-submit">Lihat Hasil & Evaluasi</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-display" id="score-display">Skor Anda: 0 / 10</div>
+        <div id="results-container"></div>
+        <a href="index.html" class="btn-submit" style="background:#64748b; text-decoration:none;">Kembali ke Daftar Strategi</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 UPT Bahasa UIN Bukittinggi. All Rights Reserved.
+</footer>
+
+<script>
+    // Data Transkrip & Analisa Berdasarkan TOEFL EXERCISE (Skills 1-3)
+    const dialogues = [
+        {
+            strategy: "Skill 1 & 2",
+            transcript: "(Woman) Let's stop and get something to drink.<br>(Man) Some coffee would be nice.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Baris terakhir pria menyebutkan 'Some coffee would be nice', yang berarti dia setuju dengan ide untuk minum. Pilihan (C) 'A drink seems like a good idea' adalah parafrase yang tepat. Pilihan (A) adalah jebakan bunyi ('iced' vs 'nice')."
+        },
+        {
+            strategy: "Skill 1 & 2",
+            transcript: "(Man) Let's go for a walk in the park.<br>(Woman) No, not today. It's too cloudy and cold.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "Wanita menolak karena cuaca 'cloudy and cold'. Ini mengimplikasikan bahwa dia lebih memilih cuaca cerah/panas. Pilihan (A) 'She would prefer a sunny day' adalah sinonim logis dari keinginannya."
+        },
+        {
+            strategy: "Skill 2 & 3",
+            transcript: "(Man) I have trouble sleeping at night.<br>(Woman) You could try counting sheep.<br><em>(Narrator: What does the woman suggest to the man?)</em>",
+            analysis: "Idiom 'counting sheep' adalah teknik membosankan/monoton untuk membuat seseorang tertidur. Pilihan (D) 'He should try something monotonous to get to sleep' adalah parafrase dari idiom tersebut. Pilihan (A), (B), dan (C) adalah jebakan bunyi dari kata 'counting' dan 'sheep'."
+        },
+        {
+            strategy: "Skill 2 & 3",
+            transcript: "(Woman) Have you heard that the department is changing the graduation requirements for our major?<br>(Man) Yes, and I just can't believe it!<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Ungkapan 'I just can't believe it!' berarti sesuatu itu sulit dipercaya atau sangat mengejutkan. Sinonimnya adalah 'incredible'. Pilihan (D) 'What has happened is incredible to him' adalah jawaban yang benar. Pilihan (C) adalah jebakan makna (believable vs can't believe)."
+        },
+        {
+            strategy: "Skill 1 & 2",
+            transcript: "(Man) I think we're going to be here for a while.<br>(Woman) But we've been standing in line for almost an hour!<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "Baris terakhir wanita menekankan durasi waktu: 'standing in line for almost an hour'. Pilihan (A) 'The wait has taken close to an hour' adalah parafrase langsung dari pernyataan tersebut."
+        },
+        {
+            strategy: "Skill 2 & 3",
+            transcript: "(Woman) The conductor is coming down the aisle.<br>(Man) Yes, he is collecting the train fare from the passengers.<br><em>(Narrator: What is happening?)</em>",
+            analysis: "Konteks percakapan adalah di dalam kereta api. 'Collecting the train fare' berarti penumpang membayar tiket perjalanan. Pilihan (D) 'The riders are paying for the train trip' adalah sinonim yang tepat. Pilihan (A), (B), dan (C) adalah jebakan bunyi dari kata 'conductor', 'collecting', dan 'passages/passengers'."
+        },
+        {
+            strategy: "Skill 2",
+            transcript: "(Woman) Have you heard about the new management training program?<br>(Man) It will start later this week.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Pria mengatakan program akan dimulai 'later this week' (akhir minggu ini). Sinonim dari 'start' adalah 'commence', dan 'later this week' berarti 'soon'. Pilihan (B) 'A program to develop new managers will commence soon' adalah parafrase yang akurat."
+        },
+        {
+            strategy: "Skill 1 & 3",
+            transcript: "(Man) Does anyone know where the fire got started?<br>(Woman) It must have started in the attic.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "Wanita mengatakan api bermula di 'attic' (loteng/ruangan paling atas bangunan). Ini berarti api kemungkinan besar dimulai di bagian atas gedung. Pilihan (C) 'The fire probably began at the top of the building' adalah jawaban yang benar. Pilihan (A), (B), dan (D) adalah jebakan bunyi dari kata 'started', 'attacker', dan 'firefighter'."
+        },
+        {
+            strategy: "Skill 2",
+            transcript: "(Woman) Aren't you going to tell me exactly what happened?<br>(Man) I assumed that you already knew the truth.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Pria berkata 'I assumed that you already knew the truth'. Kata 'assumed' berarti berpikir/mengira, dan 'knew the truth' berarti sadar/aware akan kejadian. Pilihan (C) 'He thought that the woman was aware of what happened' adalah parafrase sinonim yang tepat."
+        },
+        {
+            strategy: "Skill 2 & 3",
+            transcript: "(Man) Have you seen any of the sketches Dave did for his art professor?<br>(Woman) I've seen some of them, and they were fantastic!<br><em>(Narrator: What does the woman say about Dave?)</em>",
+            analysis: "Wanita memuji sketsa Dave dengan kata 'fantastic'. Sinonim dari 'fantastic' dalam konteks seni adalah 'amazing' atau 'sangat bagus'. 'Sketches' sama dengan 'drawings'. Pilihan (B) 'His drawings were amazing' adalah jawaban yang benar. Pilihan (C) dan (D) adalah jebakan bunyi dari kata 'fantastic' dan 'sketches'."
+        }
+    ];
+
+    document.getElementById('submit-btn').addEventListener('click', function() {
+        let score = 0;
+        let totalQuestions = 10;
+        let resultsHTML = '';
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionCard = document.querySelectorAll('.question-card')[i-1];
+            const correctAnswer = questionCard.getAttribute('data-correct');
+            const userAnswerElem = document.querySelector(`input[name="q${i}"]:checked`);
+            const userAnswer = userAnswerElem ? userAnswerElem.value : 'Tidak dijawab';
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) score++;
+
+            const dialogue = dialogues[i - 1];
+            const statusClass = isCorrect ? 'correct' : 'incorrect';
+            const badgeClass = isCorrect ? 'badge-correct' : 'badge-incorrect';
+            const statusText = isCorrect ? 'Benar' : 'Salah';
+
+            resultsHTML += `
+                <div class="result-item ${statusClass}">
+                    <h4>
+                        Soal ${i}
+                        <span class="badge ${badgeClass}">${statusText}</span>
+                    </h4>
+                    <span class="strategy-tag">${dialogue.strategy}</span>
+                    <p><strong>Jawaban Anda:</strong> ${userAnswer} | <strong>Kunci Jawaban:</strong> ${correctAnswer}</p>
+                    <div class="transcript-box">
+                        <strong>Transkrip Percakapan:</strong><br>${dialogue.transcript}
+                    </div>
+                    <div class="analysis-box">
+                        <strong>Analisa:</strong> ${dialogue.analysis}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('score-display').innerText = `Skor Anda: ${score} / ${totalQuestions}`;
+        document.getElementById('results-container').innerHTML = resultsHTML;
+        
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        
+        // Disable inputs
+        const inputs = document.querySelectorAll('#quiz-form input');
+        inputs.forEach(input => input.disabled = true);
+        document.getElementById('submit-btn').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

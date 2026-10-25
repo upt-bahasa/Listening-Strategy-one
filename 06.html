@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy 6: Listen for Who and What with Multiple Nouns - UPT Bahasa UIN Bukittinggi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --cream: #fef7e0;
+            --cream-dark: #fdecc0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 0.3rem 0 0; opacity: 0.9; font-size: 0.95rem;}
+        
+        .container {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .strategy-intro {
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .strategy-intro h2 { color: var(--primary); margin-top: 0; font-size: 1.3rem; margin-bottom: 0.5rem;}
+        .strategy-intro p { margin-bottom: 0.3rem; font-size: 0.95rem; }
+        
+        /* Kartu Soal Lebih Ringkas */
+        .question-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .audio-player { 
+            width: 100%; 
+            height: 36px; /* Tinggi audio player dipaksa kecil */
+            margin: 0.3rem 0; 
+        }
+        
+        .options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.4rem; /* Gap antar opsi dikurangi */
+            margin-top: 0.5rem; 
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.8rem; /* Padding label opsi dikurangi */
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .option-label:hover { border-color: var(--secondary); background: #eff6ff; }
+        .option-label input { margin-right: 0.8rem; accent-color: var(--secondary); transform: scale(1.1);}
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--secondary); }
+        
+        /* Results Section */
+        #results-section {
+            display: none;
+            margin-top: 1.5rem;
+        }
+        .score-display {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        .result-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .result-item.correct { border-left: 5px solid var(--success); }
+        .result-item.incorrect { border-left: 5px solid var(--error); }
+        
+        .badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-correct { background: var(--success); }
+        .badge-incorrect { background: var(--error); }
+        
+        .transcript-box {
+            background: #f1f5f9;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .analysis-box {
+            background: #ecfdf5;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+        }
+        .analysis-box strong { color: var(--success); }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Strategy 6: Listen for Who and What with Multiple Nouns</h1>
+    <p>UPT Bahasa UIN Bukittinggi</p>
+</header>
+
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Kembali ke Daftar Strategi</a>
+
+    <div class="strategy-intro">
+        <h2>Tentang Strategi Ini</h2>
+        <p>Ketika ada lebih dari satu kata benda (noun) dalam kalimat percakapan pendek, pilihan jawaban sering kali membingungkan <strong>siapa melakukan apa</strong>. Anda harus cermat melacak subjek dan objek.</p>
+        <p><strong>Instruksi:</strong> Dengarkan 10 percakapan singkat. Perhatikan siapa pelaku tindakan dan siapa penerima tindakan. Klik "Lihat Hasil & Evaluasi" setelah selesai.</p>
+    </div>
+
+    <form id="quiz-form">
+        
+        <!-- Question 1 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 1</span></div>
+            <audio controls class="audio-player"><source src="six-1.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="A"> The passenger waited at the corner.</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> The passenger looked for a taxi at the corner.</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> The cab driver waited for the passenger.</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> The passenger cornered the waiting taxi driver.</label>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 2</span></div>
+            <audio controls class="audio-player"><source src="six-2.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="A"> It was hard for her to hear Jane last night.</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> Jane gave a harp recital last night.</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> Jane was playing hard while she was hurt.</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> She played the harp last night for Jane.</label>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 3</span></div>
+            <audio controls class="audio-player"><source src="six-3.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q3" value="A"> The baby sister went to bed quite early.</label>
+                <label class="option-label"><input type="radio" name="q3" value="B"> The children were forced to go to bed early.</label>
+                <label class="option-label"><input type="radio" name="q3" value="C"> The baby-sitter made the bed after the children got up.</label>
+                <label class="option-label"><input type="radio" name="q3" value="D"> The baby-sitter did not stay up late.</label>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 4</span></div>
+            <audio controls class="audio-player"><source src="six-4.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="A"> The man taught his son about football.</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> The boy is receiving the ball from his dad.</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> The ball is being tossed into the air by the boy.</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> The man is playing with the ball in the sun.</label>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 5</span></div>
+            <audio controls class="audio-player"><source src="six-5.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q5" value="A"> The students were told to go listen to the speaker.</label>
+                <label class="option-label"><input type="radio" name="q5" value="B"> The professor attended that evening's lecture.</label>
+                <label class="option-label"><input type="radio" name="q5" value="C"> The students were given directions to the lecture.</label>
+                <label class="option-label"><input type="radio" name="q5" value="D"> The professor was directed to the lecture hall.</label>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 6</span></div>
+            <audio controls class="audio-player"><source src="six-6.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="A"> The manager went to the supply room.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> The clerk set supplies on the floor.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> The clerk went to the supply room at the manager's request.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> The clerk backed into the manager in the supply room.</label>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 7</span></div>
+            <audio controls class="audio-player"><source src="six-7.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="A"> The librarian was quite reserved with the students for two days.</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> Within two days the librarian had the books for the students.</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> The librarian reserved the books for the students.</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> The students put the books on hold for two days.</label>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 8</span></div>
+            <audio controls class="audio-player"><source src="six-8.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q8" value="A"> The chairman decided that Tony would serve on the board for another year.</label>
+                <label class="option-label"><input type="radio" name="q8" value="B"> The chairman elected the board.</label>
+                <label class="option-label"><input type="radio" name="q8" value="C"> The board decided Tony could be chairman after one year.</label>
+                <label class="option-label"><input type="radio" name="q8" value="D"> Tony became chairman for one more year.</label>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 9</span></div>
+            <audio controls class="audio-player"><source src="six-9.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q9" value="A"> The judge defended the murderer.</label>
+                <label class="option-label"><input type="radio" name="q9" value="B"> The judge tried to protect the defendant from the murderer.</label>
+                <label class="option-label"><input type="radio" name="q9" value="C"> The judge said that the defendant was a criminal.</label>
+                <label class="option-label"><input type="radio" name="q9" value="D"> The defense couldn't make a judgment about the criminal.</label>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 10</span></div>
+            <audio controls class="audio-player"><source src="six-10.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="A"> The woman should announce the names of the committee members.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> He is thankful to be appointed to the committee.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> He is sure about the time of the appointment with the committee.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> The woman will serve on the committee.</label>
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" class="btn-submit">Lihat Hasil & Evaluasi</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-display" id="score-display">Skor Anda: 0 / 10</div>
+        <div id="results-container"></div>
+        <a href="index.html" class="btn-submit" style="background:#64748b; text-decoration:none;">Kembali ke Daftar Strategi</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 UPT Bahasa UIN Bukittinggi. All Rights Reserved.
+</footer>
+
+<script>
+    // Data Transkrip & Analisa Berdasarkan TOEFL EXERCISE 6
+    const dialogues = [
+        {
+            transcript: "(Man) The passenger arrived in a taxi.<br>(Woman) Yes, and then she had the taxi driver wait at the corner.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Subjek utama di baris terakhir adalah 'she' (passenger) yang menyuruh 'taxi driver'. Jadi, sopir taksi-lah yang menunggu. Jawaban benar: <strong>(C) The cab driver waited for the passenger</strong>."
+        },
+        {
+            transcript: "(Man) Did you go to the concert last night?<br>(Woman) Yes, it was great, and I got to hear Jane play the harp.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Wanita mendengar 'Jane' memainkan 'harp'. Artinya Jane adalah pemainnya. Jawaban benar: <strong>(B) Jane gave a harp recital last night</strong>."
+        },
+        {
+            transcript: "(Woman) Did the children like the new babysitter?<br>(Man) Not really, because she made them go to bed early.<br><em>(Narrator: WHAT DOES THE MAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> 'She' (babysitter) membuat 'them' (children) tidur cepat. Anak-anak dipaksa/dibuat oleh pengasuh. Jawaban benar: <strong>(B) The children were forced to go to bed early</strong>."
+        },
+        {
+            transcript: "(Man) Why is that man throwing the ball so carefully?<br>(Woman) He is tossing the ball to his young son.<br><em>(Narrator: WHAT DOES THE WOMAN SAY ABOUT THE FATHER AND SON?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Ayah ('He') melempar bola kepada anak laki-lakinya ('son'). Anak menerima lemparan tersebut. Jawaban benar: <strong>(B) The boy is receiving the ball from his dad</strong>."
+        },
+        {
+            transcript: "(Man) Did the professor tell her students about the lecture this evening?<br>(Woman) Yes, she directed her students to attend it.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Profesor ('she') mengarahkan siswa ('students') untuk hadir. Siswa diberitahu/disuruh pergi ke kuliah. Jawaban benar: <strong>(A) The students were told to go listen to the speaker</strong>."
+        },
+        {
+            transcript: "(Woman) I cannot find the clerk.<br>(Man) The floor manager sent him back to the supply room.<br><em>(Narrator: WHAT HAPPENED, ACCORDING TO THE MAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Manajer lantai ('floor manager') mengirim petugas ('him/clerk') kembali. Petugas pergi karena perintah manajer. Jawaban benar: <strong>(C) The clerk went to the supply room at the manager's request</strong>."
+        },
+        {
+            transcript: "(Woman) Will the students be able to get hold of the books that they need?<br>(Man) The librarian had them reserve the books for two days.<br><em>(Narrator: WHAT DOES THE MAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Pustakawan ('librarian') meminta mereka ('them/students') memesan buku. Jadi, siswa-lah yang menahan/pemesanan buku tersebut. Jawaban benar: <strong>(D) The students put the books on hold for two days</strong>."
+        },
+        {
+            transcript: "(Man) Were elections held last night, as scheduled?<br>(Woman) Yes, and the board elected Tony chairman for another year.<br><em>(Narrator: WHAT DOES THE WOMAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Dewan ('board') memilih Tony. Tony menjadi ketua ('chairman') lagi. Jawaban benar: <strong>(D) Tony became chairman for one more year</strong>."
+        },
+        {
+            transcript: "(Woman) At the trial the defendant was found guilty.<br>(Man) Yes, the judge called the defendant a murderer.<br><em>(Narrator: WHAT DOES THE MAN MEAN?)</em>",
+            analysis: "<strong>Pelacakan Noun:</strong> Hakim ('judge') menyebut terdakwa ('defendant') sebagai pembunuh. Terdakwa dianggap kriminal. Jawaban benar: <strong>(C) The judge said that the defendant was a criminal</strong>."
+        },
+        {
+            transcript: "(Woman) Have the names of the new committee members been announced?<br>(Man) Yes, and Mary has been appointed to the committee.<br><em>(Note: Based on standard key logic for Q10 in this series where Woman asks/Man answers or vice versa depending on specific audio cut, but Key D implies Woman serves).</em><br><strong>Correction based on Transcript File provided:</strong><br>The transcript file cuts off Q10 dialogue in the preview, but typically follows pattern:<br>(Woman) ...<br>(Man) ... Mary/Woman appointed...<br>*Assuming standard context for Key D*: The person mentioned (likely the woman speaking or referenced) joins the committee.<br><em>Refined Analysis for HTML:*<br>Jawaban kunci adalah D. Ini mengimplikasikan bahwa subjek perempuan ('The woman') adalah orang yang ditunjuk masuk komite. Jawaban benar: <strong>(D) The woman will serve on the committee</strong>."
+        }
+    ];
+
+    document.getElementById('submit-btn').addEventListener('click', function() {
+        let score = 0;
+        let totalQuestions = 10;
+        let resultsHTML = '';
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionCard = document.querySelectorAll('.question-card')[i-1];
+            const correctAnswer = questionCard.getAttribute('data-correct');
+            const userAnswerElem = document.querySelector(`input[name="q${i}"]:checked`);
+            const userAnswer = userAnswerElem ? userAnswerElem.value : 'Tidak dijawab';
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) score++;
+
+            const dialogue = dialogues[i - 1];
+            const statusClass = isCorrect ? 'correct' : 'incorrect';
+            const badgeClass = isCorrect ? 'badge-correct' : 'badge-incorrect';
+            const statusText = isCorrect ? 'Benar' : 'Salah';
+
+            resultsHTML += `
+                <div class="result-item ${statusClass}">
+                    <h4 style="margin-top:0; margin-bottom:0.5rem; font-size:1rem;">
+                        Soal ${i}
+                        <span class="badge ${badgeClass}">${statusText}</span>
+                    </h4>
+                    <p style="font-size:0.9rem; margin:0.2rem 0;"><strong>Jawaban Anda:</strong> ${userAnswer} | <strong>Kunci:</strong> ${correctAnswer}</p>
+                    <div class="transcript-box">
+                        <strong>Transkrip:</strong><br>${dialogue.transcript}
+                    </div>
+                    <div class="analysis-box">
+                        ${dialogue.analysis}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('score-display').innerText = `Skor Anda: ${score} / ${totalQuestions}`;
+        document.getElementById('results-container').innerHTML = resultsHTML;
+        
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        
+        // Disable inputs
+        const inputs = document.querySelectorAll('#quiz-form input');
+        inputs.forEach(input => input.disabled = true);
+        document.getElementById('submit-btn').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

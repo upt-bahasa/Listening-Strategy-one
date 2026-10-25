@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy 1: Focus on the Last Line - UPT Bahasa UIN Bukittinggi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --cream: #fef7e0;
+            --cream-dark: #fdecc0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 2rem; }
+        header p { margin: 0.5rem 0 0; opacity: 0.9; }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .strategy-intro {
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .strategy-intro h2 { color: var(--primary); margin-top: 0; font-size: 1.5rem; }
+        .strategy-intro p { margin-bottom: 0.5rem; }
+        
+        .question-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .audio-player { width: 100%; margin: 0.5rem 0; }
+        
+        .options { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-label:hover { border-color: var(--secondary); background: #eff6ff; }
+        .option-label input { margin-right: 1rem; accent-color: var(--secondary); }
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--secondary); }
+        
+        /* Results Section */
+        #results-section {
+            display: none;
+            margin-top: 2rem;
+        }
+        .score-display {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .result-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .result-item.correct { border-left: 5px solid var(--success); }
+        .result-item.incorrect { border-left: 5px solid var(--error); }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-correct { background: var(--success); }
+        .badge-incorrect { background: var(--error); }
+        
+        .transcript-box {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .analysis-box {
+            background: #ecfdf5;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+        .analysis-box strong { color: var(--success); }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Strategy 1: Focus on the Last Line</h1>
+    <p>UPT Bahasa UIN Bukittinggi</p>
+</header>
+
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Kembali ke Daftar Strategi</a>
+
+    <div class="strategy-intro">
+        
+<h2>Strategi 1: Fokus pada Kalimat terakir</h2>
+
+<ol style="margin-left: 25px; padding-left: 20px; line-height: 1.8; text-align: justify;">
+  <li style="padding-left: 8px; margin-bottom: 12px;">
+    <strong>Kalimat terakhir dalam dialog </strong> kemungkinan besar mengandung jawaban atas pertanyaan.
+  </li>
+
+  <li style="padding-left: 8px; margin-bottom: 12px;">
+    Dengarkan kalimat pertama dalam dialog. Jika Anda memahaminya, itu bagus. Jika Anda tidak memahaminya, jangan khawatir karena kalimat pertama kemungkinan tidak mengandung jawaban.
+  </li>
+
+  <li style="padding-left: 8px; margin-bottom: 12px;">
+    Bersiaplah untuk <strong>memusatkan perhatian pada kalimat terakhir dalam dialog </strong> karena kalimat tersebut kemungkinan besar mengandung jawaban. Ingatlah kalimat terakhir itu sambil membaca pilihan jawaban yang tersedia dalam teks.
+  </li>
+</ol>
+
+<p style="margin-left: 25px; text-align: justify;">
+  <strong>Instruksi:</strong> Dengarkan 10 percakapan singkat berikut. Pilih jawaban yang paling tepat berdasarkan respons pembicara kedua. Setelah selesai, klik tombol "Lihat Hasil &amp; Evaluasi".
+</p>
+
+    <form id="quiz-form">
+        <!-- Questions will be generated by JS or hardcoded below -->
+        
+        <!-- Question 1 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 1</span></div>
+            <audio controls class="audio-player"><source src="one-1.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="A"> He is leaving now.</label>
+                <label class="option-label"><input type="radio" name="q1" value="B"> He has to go out of his way.</label>
+                <label class="option-label"><input type="radio" name="q1" value="C"> He will not be leaving soon.</label>
+                <label class="option-label"><input type="radio" name="q1" value="D"> He will do it his own way.</label>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 2</span></div>
+            <audio controls class="audio-player"><source src="one-2.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="A"> He locked the door.</label>
+                <label class="option-label"><input type="radio" name="q2" value="B"> He tried unsuccessfully to get into the house.</label>
+                <label class="option-label"><input type="radio" name="q2" value="C"> He was able to open the door.</label>
+                <label class="option-label"><input type="radio" name="q2" value="D"> He left the house without locking the door.</label>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 3</span></div>
+            <audio controls class="audio-player"><source src="one-3.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q3" value="A"> She doesn't like to listen to turkeys.</label>
+                <label class="option-label"><input type="radio" name="q3" value="B"> She thinks the dinner sounds special.</label>
+                <label class="option-label"><input type="radio" name="q3" value="C"> She especially likes the roast turkey.</label>
+                <label class="option-label"><input type="radio" name="q3" value="D"> She'd prefer a different dinner.</label>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-correct="B">
+            <div class="question-header"><span class="q-number">Question 4</span></div>
+            <audio controls class="audio-player"><source src="one-4.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="A"> He'll be busy with her homework tonight.</label>
+                <label class="option-label"><input type="radio" name="q4" value="B"> He can't help her tonight.</label>
+                <label class="option-label"><input type="radio" name="q4" value="C"> He's sorry he can't ever help her.</label>
+                <label class="option-label"><input type="radio" name="q4" value="D"> He'll help her with her physics.</label>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 5</span></div>
+            <audio controls class="audio-player"><source src="one-5.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q5" value="A"> Her eyes hurt.</label>
+                <label class="option-label"><input type="radio" name="q5" value="B"> She thought the lecture was great.</label>
+                <label class="option-label"><input type="radio" name="q5" value="C"> The class was boring.</label>
+                <label class="option-label"><input type="radio" name="q5" value="D"> She didn't want to watch Professor Martin.</label>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 6</span></div>
+            <audio controls class="audio-player"><source src="one-6.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="A"> Not all the bills have been paid.</label>
+                <label class="option-label"><input type="radio" name="q6" value="B"> They don't have enough credit to pay the bills.</label>
+                <label class="option-label"><input type="radio" name="q6" value="C"> What she said on the phone was not credible.</label>
+                <label class="option-label"><input type="radio" name="q6" value="D"> He used a credit card to pay some of the bills.</label>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 7</span></div>
+            <audio controls class="audio-player"><source src="one-7.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="A"> She'll call back quickly.</label>
+                <label class="option-label"><input type="radio" name="q7" value="B"> She'll definitely be back by 4:00.</label>
+                <label class="option-label"><input type="radio" name="q7" value="C"> She'll give it back by 4:00.</label>
+                <label class="option-label"><input type="radio" name="q7" value="D"> She'll try to return fast.</label>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-correct="C">
+            <div class="question-header"><span class="q-number">Question 8</span></div>
+            <audio controls class="audio-player"><source src="one-8.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q8" value="A"> She hasn't seen Tim.</label>
+                <label class="option-label"><input type="radio" name="q8" value="B"> Tim was there only for a moment.</label>
+                <label class="option-label"><input type="radio" name="q8" value="C"> Tim was around a short time ago.</label>
+                <label class="option-label"><input type="radio" name="q8" value="D"> Tim will return in a minute.</label>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-correct="D">
+            <div class="question-header"><span class="q-number">Question 9</span></div>
+            <audio controls class="audio-player"><source src="one-9.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q9" value="A"> She doesn't like the place he chose.</label>
+                <label class="option-label"><input type="radio" name="q9" value="B"> She doesn't want to get into the car.</label>
+                <label class="option-label"><input type="radio" name="q9" value="C"> She's glad the spot is reserved.</label>
+                <label class="option-label"><input type="radio" name="q9" value="D"> They can't park the car there.</label>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-correct="A">
+            <div class="question-header"><span class="q-number">Question 10</span></div>
+            <audio controls class="audio-player"><source src="one-10.mp3" type="audio/mpeg"></audio>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="A"> There's plenty to eat.</label>
+                <label class="option-label"><input type="radio" name="q10" value="B"> The refrigerator's broken.</label>
+                <label class="option-label"><input type="radio" name="q10" value="C"> The food isn't in the refrigerator.</label>
+                <label class="option-label"><input type="radio" name="q10" value="D"> He's not sure if there's enough.</label>
+            </div>
+        </div>
+
+        <button type="button" id="submit-btn" class="btn-submit">Lihat Hasil & Evaluasi</button>
+    </form>
+
+    <div id="results-section">
+        <div class="score-display" id="score-display">Skor Anda: 0 / 10</div>
+        <div id="results-container"></div>
+        <a href="index.html" class="btn-submit" style="background:#64748b; text-decoration:none;">Kembali ke Daftar Strategi</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 UPT Bahasa UIN Bukittinggi. All Rights Reserved.
+</footer>
+
+<script>
+    // Data Transkrip Berdasarkan Audio d-1.mp3 s/d d-10.mp3
+    const dialogues = [
+        {
+            transcript: "(Man) How soon will you be leaving?<br>(Woman) I'm on my way now.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Kalimat kunci ada di baris terakhir wanita: '<strong>I'm on my way now</strong>'. Ini berarti dia sedang berangkat atau akan segera pergi. Jawaban yang benar: <strong>He is leaving now</strong> (Pilihan A)."
+        },
+        {
+            transcript: "(Man) Was Steve able to get into the house?<br>(Woman) I left the door unlocked for him.<br><em>(Narrator: What does the woman assume Steve did?)</em>",
+            analysis: "Wanita mengatakan dia meninggalkan pintu dalam keadaan tidak terkunci ('unlocked'). Implikasinya, Steve bisa masuk karena pintunya terbuka. Jawaban yang benar: <strong>He was able to open the door</strong> (Pilihan C)."
+        },
+        {
+            transcript: "(Man) The dinner special is roast turkey with mashed potatoes and gravy, and apple pie for dessert.<br>(Woman) That doesn't sound good to me.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "Wanita menolak menu tersebut dengan berkata 'That doesn't sound good to me'. Artinya dia tidak suka menunya dan ingin makan sesuatu yang lain. Jawaban yang benar: <strong>She'd prefer a different dinner</strong> (Pilihan D)."
+        },
+        {
+            transcript: "(Woman) Could you help me with my physics homework tonight? I'm really having trouble with it.<br>(Man) Sorry, I'm busy tonight.<br><em>(Narrator: What does the man imply?)</em>",
+            analysis: "Pria menjawab 'Sorry, I'm busy tonight'. Fokus pada baris terakhir: dia sibuk malam ini, jadi dia tidak bisa membantu. Jawaban yang benar: <strong>He can't help her tonight</strong> (Pilihan B)."
+        },
+        {
+            transcript: "(Man) What did you think of Professor Martin's lecture on the migratory habits of whales?<br>(Woman) I couldn't keep my eyes open.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "Idiom 'couldn't keep my eyes open' berarti sangat mengantuk atau bosan. Jadi kuliahnya membosankan. Jawaban yang benar: <strong>The class was boring</strong> (Pilihan C)."
+        },
+        {
+            transcript: "(Woman) Have this month's bills been paid or is that something we need to take care of now?<br>(Man) I paid the phone and electricity, but not the credit cards.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Pria membayar tagihan telepon dan listrik, tetapi belum membayar kartu kredit ('but not the credit cards'). Artinya masih ada tagihan yang tersisa/belum lunas. Jawaban yang benar: <strong>Not all the bills have been paid</strong> (Pilihan A)."
+        },
+        {
+            transcript: "(Man) Will you be able to get back from running all your errands by four o'clock?<br>(Woman) I'll be back as quickly as I can.<br><em>(Narrator: What does the woman say that she'll do?)</em>",
+            analysis: "Wanita berjanji kembali 'as quickly as I can' (secepat mungkin). Ini sinonim dari berusaha pulang cepat. Jawaban yang benar: <strong>She'll try to return fast</strong> (Pilihan D)."
+        },
+        {
+            transcript: "(Man) Have you seen Tim? I really need to talk with him about the phone bill.<br>(Woman) Well, he was here just a minute ago.<br><em>(Narrator: What does the woman say about Tim?)</em>",
+            analysis: "Frasa 'just a minute ago' menunjukkan waktu yang sangat baru/baru saja. Jadi Tim baru saja berada di sana sebentar lalu pergi. Jawaban yang benar: <strong>Tim was around a short time ago</strong> (Pilihan C)."
+        },
+        {
+            transcript: "(Man) There's a car parked in my spot, even though the sign says that this space is reserved.<br>(Woman) I guess we'll have to park somewhere else.<br><em>(Narrator: What does the woman mean?)</em>",
+            analysis: "Karena tempat parkir sudah penuh/terisi mobil lain, mereka harus mencari tempat lain. Implikasi langsung dari 'park somewhere else' adalah mereka tidak bisa parkir di situ. Jawaban yang benar: <strong>They can't park the car there</strong> (Pilihan D)."
+        },
+        {
+            transcript: "(Woman) Do we have enough food for all the guests who are attending the reception this evening?<br>(Man) The refrigerator's about to burst.<br><em>(Narrator: What does the man mean?)</em>",
+            analysis: "Hyperbola (berlebihan) 'refrigerator's about to burst' (kulkas mau pecah) menggambarkan bahwa kulkas sangat penuh makanan. Artinya makanannya lebih dari cukup. Jawaban yang benar: <strong>There's plenty to eat</strong> (Pilihan A)."
+        }
+    ];
+
+    document.getElementById('submit-btn').addEventListener('click', function() {
+        let score = 0;
+        let totalQuestions = 10;
+        let resultsHTML = '';
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionCard = document.querySelectorAll('.question-card')[i-1];
+            const correctAnswer = questionCard.getAttribute('data-correct');
+            const userAnswerElem = document.querySelector(`input[name="q${i}"]:checked`);
+            const userAnswer = userAnswerElem ? userAnswerElem.value : 'Tidak dijawab';
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) score++;
+
+            const dialogue = dialogues[i - 1];
+            const statusClass = isCorrect ? 'correct' : 'incorrect';
+            const badgeClass = isCorrect ? 'badge-correct' : 'badge-incorrect';
+            const statusText = isCorrect ? 'Benar' : 'Salah';
+
+            resultsHTML += `
+                <div class="result-item ${statusClass}">
+                    <h4>
+                        Soal ${i}
+                        <span class="badge ${badgeClass}">${statusText}</span>
+                    </h4>
+                    <p><strong>Jawaban Anda:</strong> ${userAnswer} | <strong>Kunci Jawaban:</strong> ${correctAnswer}</p>
+                    <div class="transcript-box">
+                        <strong>Transkrip Percakapan:</strong><br>${dialogue.transcript}
+                    </div>
+                    <div class="analysis-box">
+                        <strong>Analisa (Focus on Last Line):</strong> ${dialogue.analysis}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('score-display').innerText = `Skor Anda: ${score} / ${totalQuestions}`;
+        document.getElementById('results-container').innerHTML = resultsHTML;
+        
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        
+        // Disable inputs
+        const inputs = document.querySelectorAll('#quiz-form input');
+        inputs.forEach(input => input.disabled = true);
+        document.getElementById('submit-btn').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>
